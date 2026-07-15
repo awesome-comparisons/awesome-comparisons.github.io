@@ -43,18 +43,3 @@ Local state lives in `x-data`; shared, page-wide state uses `Alpine.store()`, wh
 
 Local state uses tracked properties; shared state is conventionally placed in Ember Services, which are singleton, dependency-injected classes rather than a dedicated external store library.
 
-## Astro
-
-Islands are isolated by default with no shared state mechanism built in. Cross-island communication typically requires a lightweight tool like nanostores, since Astro itself has no client-side runtime of its own.
-
-## Next.js
-
-Next.js leans on React's state tools, but its emphasis on Server Components and server/URL-derived data reduces reliance on client-side global stores; libraries like Zustand or Redux are still used for complex client state.
-
-## Nuxt
-
-Nuxt provides a built-in `useState()` composable for SSR-safe shared state, with Pinia as the recommended solution for larger-scale stores, integrated through an official Nuxt module.
-
-## Remix
-
-Remix favors deriving state from loaders, actions, and URL search params over client-held state; local UI state still uses React hooks, but global client stores are used sparingly.
