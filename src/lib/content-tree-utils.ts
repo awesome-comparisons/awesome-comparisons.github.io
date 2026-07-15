@@ -15,6 +15,7 @@ const ACRONYMS = new Set([
   "os",
   "ai",
   "ssg",
+  "orm",
 ])
 
 export function humanizeSegment(segment: string): string {
