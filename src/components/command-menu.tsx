@@ -1,16 +1,22 @@
 import * as React from "react"
 import { FileIcon, SearchIcon } from "lucide-react"
 
-import { Button } from "@/components/ui/button"
 import {
+  Command,
   CommandDialog,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
+  CommandSeparator,
 } from "@/components/ui/command"
-import { Kbd, KbdGroup } from "@/components/ui/kbd"
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/ui/input-group"
+import { Kbd } from "@/components/ui/kbd"
 import {
   flattenContentTree,
   type ContentTreeNode,
@@ -45,48 +51,57 @@ export function CommandMenu({ tree }: { tree: ContentTreeNode[] }) {
 
   return (
     <>
-      <Button
-        variant="outline"
-        size="sm"
-        className="w-9 justify-center gap-2 px-0 font-normal text-muted-foreground sm:w-56 sm:justify-between sm:px-3"
-        onClick={() => setOpen(true)}
-      >
-        <span className="flex items-center gap-2">
-          <SearchIcon className="size-4 sm:hidden" />
-          <span className="hidden sm:inline">Search documents…</span>
-        </span>
-        <KbdGroup className="hidden sm:flex">
-          <Kbd>⌘</Kbd>
-          <Kbd>K</Kbd>
-        </KbdGroup>
-      </Button>
+      <InputGroup className="cursor-pointer" onClick={() => setOpen(true)}>
+        <InputGroupInput
+          placeholder="Search documents..."
+          readOnly
+          onKeyDown={(event) => {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault()
+              setOpen(true)
+            }
+          }}
+          className="cursor-pointer"
+        />
+        <InputGroupAddon>
+          <SearchIcon className="text-muted-foreground" />
+        </InputGroupAddon>
+        <InputGroupAddon align="inline-end">
+          <Kbd>⌘K</Kbd>
+        </InputGroupAddon>
+      </InputGroup>
       <CommandDialog
         open={open}
         onOpenChange={setOpen}
         title="Jump to document"
         description="Search documents by title"
       >
-        <CommandInput placeholder="Search documents..." />
-        <CommandList>
-          <CommandEmpty>No documents found.</CommandEmpty>
-          {Array.from(groups.entries()).map(([group, items]) => (
-            <CommandGroup key={group} heading={group}>
-              {items.map((doc) => (
-                <CommandItem
-                  key={doc.slug}
-                  value={`${doc.title} ${doc.group}`}
-                  onSelect={() => {
-                    setOpen(false)
-                    window.location.href = `/content/${doc.slug}`
-                  }}
-                >
-                  <FileIcon />
-                  {doc.title}
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          ))}
-        </CommandList>
+        <Command>
+          <CommandInput placeholder="Search documents..." />
+          <CommandList>
+            <CommandEmpty>No documents found.</CommandEmpty>
+            {Array.from(groups.entries()).map(([group, items], index) => (
+              <React.Fragment key={group}>
+                {index > 0 && <CommandSeparator />}
+                <CommandGroup heading={group}>
+                  {items.map((doc) => (
+                    <CommandItem
+                      key={doc.slug}
+                      value={`${doc.title} ${doc.group}`}
+                      onSelect={() => {
+                        setOpen(false)
+                        window.location.href = `/content/${doc.slug}`
+                      }}
+                    >
+                      <FileIcon />
+                      {doc.title}
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </React.Fragment>
+            ))}
+          </CommandList>
+        </Command>
       </CommandDialog>
     </>
   )

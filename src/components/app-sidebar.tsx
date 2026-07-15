@@ -2,6 +2,7 @@
 
 import * as React from "react"
 
+import { CommandMenu } from "@/components/command-menu"
 import {
   Collapsible,
   CollapsibleContent,
@@ -13,6 +14,7 @@ import {
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
+  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -32,6 +34,9 @@ export function AppSidebar({
 }) {
   return (
     <Sidebar {...props}>
+      <SidebarHeader className="border-b border-sidebar-border">
+        <CommandMenu tree={tree} />
+      </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>Content</SidebarGroupLabel>

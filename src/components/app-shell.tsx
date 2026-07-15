@@ -1,7 +1,6 @@
 import * as React from "react"
 
 import { AppSidebar } from "@/components/app-sidebar"
-import { CommandMenu } from "@/components/command-menu"
 import { SummarySidebar, type Heading } from "@/components/summary-sidebar"
 import {
   Breadcrumb,
@@ -44,39 +43,36 @@ export function AppShell({
     <SidebarProvider>
       <AppSidebar tree={tree} activeSlug={activeSlug} />
       <SidebarInset>
-        <header className="sticky top-0 z-10 flex h-14 shrink-0 items-center justify-between gap-4 border-b bg-background/85 px-4 backdrop-blur-sm">
-          <div className="flex min-w-0 items-center gap-2">
-            <SidebarTrigger className="-ml-1 sm:hidden" />
-            <Breadcrumb className="min-w-0">
-              <BreadcrumbList className="flex-nowrap">
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="/" className="shrink-0">
-                    Content
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                {segments.map((segment, index) => {
-                  const isLast = index === segments.length - 1
-                  const label =
-                    isLast && summary ? summary.title : humanizeSegment(segment)
-                  return (
-                    <React.Fragment key={`${segment}-${index}`}>
-                      <BreadcrumbSeparator />
-                      <BreadcrumbItem className="min-w-0">
-                        {isLast ? (
-                          <BreadcrumbPage className="truncate">
-                            {label}
-                          </BreadcrumbPage>
-                        ) : (
-                          <span className="truncate">{label}</span>
-                        )}
-                      </BreadcrumbItem>
-                    </React.Fragment>
-                  )
-                })}
-              </BreadcrumbList>
-            </Breadcrumb>
-          </div>
-          <CommandMenu tree={tree} />
+        <header className="sticky top-0 z-10 flex h-14 shrink-0 items-center gap-4 border-b bg-background/85 px-4 backdrop-blur-sm">
+          <SidebarTrigger className="-ml-1 sm:hidden" />
+          <Breadcrumb className="min-w-0">
+            <BreadcrumbList className="flex-nowrap">
+              <BreadcrumbItem>
+                <BreadcrumbLink href="/" className="shrink-0">
+                  Content
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              {segments.map((segment, index) => {
+                const isLast = index === segments.length - 1
+                const label =
+                  isLast && summary ? summary.title : humanizeSegment(segment)
+                return (
+                  <React.Fragment key={`${segment}-${index}`}>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem className="min-w-0">
+                      {isLast ? (
+                        <BreadcrumbPage className="truncate">
+                          {label}
+                        </BreadcrumbPage>
+                      ) : (
+                        <span className="truncate">{label}</span>
+                      )}
+                    </BreadcrumbItem>
+                  </React.Fragment>
+                )
+              })}
+            </BreadcrumbList>
+          </Breadcrumb>
         </header>
         <div className="flex justify-center px-6 py-10">
           <div className="w-full max-w-3xl">{children}</div>
