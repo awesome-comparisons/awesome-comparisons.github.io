@@ -8,6 +8,7 @@ const ACRONYMS = new Set(["api", "cli", "faq", "css", "ui", "sql", "url"])
 
 export function humanizeSegment(segment: string): string {
   return segment
+    .replace(/^\d+[-_]/, "")
     .split(/[-_]/)
     .map((word) =>
       ACRONYMS.has(word.toLowerCase())

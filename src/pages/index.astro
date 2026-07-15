@@ -1,9 +1,13 @@
 ---
+import { getCollection } from "astro:content"
+
 import Layout from "@/layouts/main.astro"
 import { AppShell } from "@/components/app-shell"
 import { getContentTree } from "@/lib/content-tree"
 
 const tree = await getContentTree()
+const entries = await getCollection("docs")
+const introduction = entries.find((entry) => entry.id.endsWith("_introduction"))
 ---
 
 <Layout>
@@ -15,9 +19,15 @@ const tree = await getContentTree()
         comparisons rendered straight from Markdown in
         <code>src/content/docs</code>.
       </p>
-      <p>
-        <a href="/content/introduction">Start with the introduction &rarr;</a>
-      </p>
+      {
+        introduction && (
+          <p>
+            <a href={`/content/${introduction.id}`}>
+              Start with the introduction &rarr;
+            </a>
+          </p>
+        )
+      }
     </div>
   </AppShell>
 </Layout>
