@@ -3,7 +3,7 @@ title: Serverless and Edge Functions
 description: How each cloud/hosting platform runs short-lived, on-demand functions — only covering platforms that actually offer this.
 ---
 
-_Render, Fly.io, and Heroku are intentionally omitted here — none of the three offer a dedicated serverless/edge-function product; they run long-lived containers or VMs instead. See [Compute Model](/content/05-cloud-platforms/20260721090100_compute-model) for how those three actually run code._
+_Render, Fly.io, and Heroku are intentionally omitted here — none of the three offer a dedicated serverless/edge-function product; they run long-lived containers or VMs instead. See [Compute Model](/content/03-misc/05-cloud-platforms/20260721090100_compute-model) for how those three actually run code._
 
 ## AWS
 
