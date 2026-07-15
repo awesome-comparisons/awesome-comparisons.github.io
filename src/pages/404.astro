@@ -1,0 +1,21 @@
+---
+import Layout from "@/layouts/main.astro"
+import { AppShell } from "@/components/app-shell"
+import { getContentTree } from "@/lib/content-tree"
+
+const tree = await getContentTree()
+---
+
+<Layout title="Page Not Found — Awesome Comparisons">
+  <AppShell client:load tree={tree}>
+    <div class="typeset typeset-docs">
+      <h1>404</h1>
+      <p class="text-muted-foreground">
+        This page doesn't exist — it may have moved or never been written.
+      </p>
+      <p>
+        <a href="/">Back to home &rarr;</a>
+      </p>
+    </div>
+  </AppShell>
+</Layout>
