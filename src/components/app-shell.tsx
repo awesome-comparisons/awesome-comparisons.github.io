@@ -78,7 +78,13 @@ export function AppShell({
           <div className="w-full max-w-3xl">{children}</div>
         </div>
       </SidebarInset>
-      {summary && <SummarySidebar {...summary} />}
+      {summary && (
+        <SummarySidebar
+          headings={summary.headings}
+          wordCount={summary.wordCount}
+          readingTime={summary.readingTime}
+        />
+      )}
     </SidebarProvider>
   )
 }

@@ -29,15 +29,11 @@ function headingDepthOf(element: Element): number | null {
 }
 
 export function SummarySidebar({
-  title,
-  description,
   headings,
   wordCount,
   readingTime,
   ...props
 }: React.ComponentProps<typeof Sidebar> & {
-  title: string
-  description?: string
   headings: Heading[]
   wordCount: number
   readingTime: number
