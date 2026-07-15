@@ -4,7 +4,7 @@ export type ContentTreeNode =
 
 export type FlatDoc = { slug: string; title: string; group: string }
 
-const ACRONYMS = new Set(["api", "cli", "faq", "css", "ui", "sql", "url"])
+const ACRONYMS = new Set(["api", "cli", "faq", "css", "ui", "sql", "url", "os"])
 
 export function humanizeSegment(segment: string): string {
   return segment
