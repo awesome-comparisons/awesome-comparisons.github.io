@@ -1,0 +1,34 @@
+---
+import { getCollection, render } from "astro:content"
+
+import Layout from "@/layouts/main.astro"
+import { AppShell } from "@/components/app-shell"
+import { getContentTree } from "@/lib/content-tree"
+
+export async function getStaticPaths() {
+  const entries = await getCollection("docs")
+
+  return entries.map((entry) => ({
+    params: { splat: entry.id },
+    props: { entry },
+  }))
+}
+
+const { entry } = Astro.props
+const { Content } = await render(entry)
+const tree = await getContentTree()
+---
+
+<Layout title={entry.data.title}>
+  <AppShell client:load tree={tree} activeSlug={entry.id}>
+    <article class="typeset typeset-docs">
+      <h1>{entry.data.title}</h1>
+      {
+        entry.data.description && (
+          <p class="text-muted-foreground">{entry.data.description}</p>
+        )
+      }
+      <Content />
+    </article>
+  </AppShell>
+</Layout>

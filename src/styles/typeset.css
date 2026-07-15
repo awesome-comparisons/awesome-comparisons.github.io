@@ -1,0 +1,181 @@
+/**
+ * A minimal typeset system, following the shadcn/typeset contract:
+ * three rhythm controls (size, leading, flow), theme tokens for color,
+ * :where() selectors so utilities win without !important, and a
+ * `not-typeset` escape hatch. The full generated file normally comes
+ * from the interactive builder at ui.shadcn.com/typeset; this is a
+ * hand-written implementation of the same public variable API.
+ */
+@layer components {
+  .typeset {
+    --typeset-font-body: inherit;
+    --typeset-font-heading: var(--font-heading);
+    --typeset-font-mono: var(--font-mono);
+
+    --typeset-size: 1em;
+    --typeset-leading: 1.75;
+    --typeset-flow: 1.25em;
+
+    font-family: var(--typeset-font-body);
+    font-size: var(--typeset-size);
+    line-height: var(--typeset-leading);
+    color: var(--foreground);
+  }
+
+  @media (max-width: 640px) {
+    .typeset {
+      font-size: calc(var(--typeset-size) * 1.0625);
+    }
+  }
+
+  .typeset > :first-child {
+    margin-block-start: 0;
+  }
+
+  .typeset
+    :where(p, ul, ol, dl, blockquote, pre, table, hr, img, figure):not(
+      :where(
+        .not-typeset,
+        .not-typeset *,
+        [data-not-typeset],
+        [data-not-typeset] *
+      )
+    ) {
+    margin-block-start: var(--typeset-flow);
+  }
+
+  .typeset
+    :where(h1, h2, h3, h4, h5, h6):not(
+      :where(
+        .not-typeset,
+        .not-typeset *,
+        [data-not-typeset],
+        [data-not-typeset] *
+      )
+    ) {
+    font-family: var(--typeset-font-heading);
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--foreground);
+    text-wrap: balance;
+    margin-block-start: calc(var(--typeset-flow) * 1.5);
+  }
+
+  .typeset :where(h1) {
+    font-size: 2em;
+  }
+  .typeset :where(h2) {
+    font-size: 1.5em;
+  }
+  .typeset :where(h3) {
+    font-size: 1.25em;
+  }
+  .typeset :where(h4) {
+    font-size: 1.125em;
+  }
+  .typeset :where(h5, h6) {
+    font-size: 1em;
+  }
+
+  .typeset
+    :where(a):not(
+      :where(
+        .not-typeset,
+        .not-typeset *,
+        [data-not-typeset],
+        [data-not-typeset] *
+      )
+    ) {
+    color: var(--primary);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .typeset :where(strong, b) {
+    font-weight: 600;
+  }
+  .typeset :where(em, i) {
+    font-style: italic;
+  }
+
+  .typeset :where(ul, ol) {
+    padding-inline-start: 1.5em;
+  }
+  .typeset :where(li) {
+    margin-block-start: calc(var(--typeset-flow) * 0.35);
+  }
+  .typeset :where(li)::marker {
+    color: var(--muted-foreground);
+  }
+
+  .typeset :where(blockquote) {
+    border-inline-start: 2px solid var(--border);
+    padding-inline-start: 1em;
+    font-style: italic;
+    color: var(--muted-foreground);
+  }
+
+  .typeset :where(hr) {
+    border: none;
+    border-block-start: 1px solid var(--border);
+  }
+
+  .typeset :where(code) {
+    font-family: var(--typeset-font-mono);
+    font-size: 0.875em;
+    background: var(--muted);
+    padding: 0.15em 0.4em;
+    border-radius: var(--radius-sm);
+  }
+
+  .typeset :where(pre) {
+    font-family: var(--typeset-font-mono);
+    font-size: 0.875em;
+    line-height: 1.6;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1em;
+    overflow-x: auto;
+  }
+
+  .typeset :where(pre code) {
+    background: none;
+    padding: 0;
+    border-radius: 0;
+  }
+
+  .typeset :where(table) {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9em;
+  }
+
+  .typeset :where(th, td) {
+    border: 1px solid var(--border);
+    padding: 0.5em 0.75em;
+    text-align: start;
+  }
+
+  .typeset :where(th) {
+    font-weight: 600;
+    background: var(--muted);
+  }
+
+  .typeset :where(img) {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius-lg);
+  }
+
+  /* Wrap a wide block (typically a table) to scroll horizontally instead of overflowing. */
+  .typeset-scroll {
+    overflow-x: auto;
+  }
+
+  .typeset-docs {
+    --typeset-size: 0.9375rem;
+    --typeset-leading: 1.75;
+    --typeset-flow: 1.25em;
+  }
+}
