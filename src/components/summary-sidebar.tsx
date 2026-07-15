@@ -1,5 +1,6 @@
 import * as React from "react"
 
+import { cn } from "@/lib/utils"
 import {
   Sidebar,
   SidebarContent,
@@ -22,6 +23,11 @@ const HEADING_INDENT: Record<number, string> = {
   4: "pl-8",
 }
 
+function headingDepthOf(element: Element): number | null {
+  const match = /^H([1-6])$/.exec(element.tagName)
+  return match ? Number(match[1]) : null
+}
+
 export function SummarySidebar({
   title,
   description,
@@ -42,6 +48,46 @@ export function SummarySidebar({
     [headings]
   )
   const [activeSlug, setActiveSlug] = React.useState<string | null>(null)
+  const [checked, setChecked] = React.useState<Record<string, boolean>>(() =>
+    Object.fromEntries(toc.map((heading) => [heading.slug, true]))
+  )
+  const selectAllRef = React.useRef<HTMLInputElement>(null)
+
+  const checkedCount = toc.filter((heading) => checked[heading.slug]).length
+  const allChecked = toc.length > 0 && checkedCount === toc.length
+  const someChecked = checkedCount > 0 && checkedCount < toc.length
+
+  React.useEffect(() => {
+    if (selectAllRef.current) {
+      selectAllRef.current.indeterminate = someChecked
+    }
+  }, [someChecked])
+
+  function toggleAll(value: boolean) {
+    setChecked(Object.fromEntries(toc.map((heading) => [heading.slug, value])))
+  }
+
+  function toggleOne(slug: string, value: boolean) {
+    setChecked((prev) => ({ ...prev, [slug]: value }))
+  }
+
+  React.useEffect(() => {
+    for (const heading of toc) {
+      const headingElement = document.getElementById(heading.slug)
+      if (!headingElement) continue
+
+      const visible = checked[heading.slug] ?? true
+      headingElement.style.display = visible ? "" : "none"
+
+      let sibling = headingElement.nextElementSibling
+      while (sibling) {
+        const siblingDepth = headingDepthOf(sibling)
+        if (siblingDepth !== null && siblingDepth <= heading.depth) break
+        ;(sibling as HTMLElement).style.display = visible ? "" : "none"
+        sibling = sibling.nextElementSibling
+      }
+    }
+  }, [checked, toc])
 
   React.useEffect(() => {
     const elements = toc
@@ -74,28 +120,51 @@ export function SummarySidebar({
       className="sticky top-0 hidden h-svh border-l lg:flex"
       {...props}
     >
-      <SidebarHeader className="justify-center gap-1 border-b border-sidebar-border px-4 py-4">
-        <p className="truncate text-sm font-medium">{title}</p>
-        {description && (
-          <p className="line-clamp-2 text-xs text-muted-foreground">
-            {description}
-          </p>
-        )}
+      <SidebarHeader className="justify-center border-b border-sidebar-border px-4 py-4">
+        <p className="truncate text-sm font-medium">Summary</p>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>On this page</SidebarGroupLabel>
+          <SidebarGroupLabel className="justify-between">
+            <span>On this page</span>
+            {toc.length > 0 && (
+              <label className="flex cursor-pointer items-center gap-1.5 font-normal normal-case">
+                <input
+                  ref={selectAllRef}
+                  type="checkbox"
+                  checked={allChecked}
+                  onChange={(event) => toggleAll(event.target.checked)}
+                  className="size-3.5 accent-primary"
+                />
+                All
+              </label>
+            )}
+          </SidebarGroupLabel>
           <SidebarGroupContent>
             {toc.length ? (
               <SidebarMenu>
                 {toc.map((heading) => (
-                  <SidebarMenuItem key={heading.slug}>
+                  <SidebarMenuItem
+                    key={heading.slug}
+                    className={cn(
+                      "flex items-center gap-1.5",
+                      HEADING_INDENT[heading.depth]
+                    )}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={checked[heading.slug] ?? true}
+                      onChange={(event) =>
+                        toggleOne(heading.slug, event.target.checked)
+                      }
+                      className="size-3.5 shrink-0 accent-primary"
+                    />
                     <SidebarMenuButton
                       isActive={heading.slug === activeSlug}
                       render={<a href={`#${heading.slug}`} />}
-                      className={HEADING_INDENT[heading.depth]}
+                      className="min-w-0"
                     >
-                      {heading.text}
+                      <span className="truncate">{heading.text}</span>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}
