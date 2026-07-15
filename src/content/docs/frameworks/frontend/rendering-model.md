@@ -1,0 +1,60 @@
+---
+title: Rendering Model
+description: How each frontend framework turns component state into DOM updates, from virtual DOM diffing to compiled fine-grained rendering.
+---
+
+## React
+
+React renders via a virtual DOM: state changes trigger a re-render of the affected component function, the result is diffed against the previous virtual tree, and minimal patches are committed to the real DOM. The Fiber architecture makes this reconciliation interruptible, enabling prioritized and concurrent rendering.
+
+## Vue
+
+Vue also uses a virtual DOM, but its Single-File Component compiler adds optimizations like patch flags that mark which nodes are dynamic. This lets the runtime skip diffing static content entirely, making updates cheaper than a naive VDOM diff.
+
+## Svelte
+
+Svelte has no virtual DOM at all. Its compiler turns components into imperative JavaScript at build time that directly updates the specific DOM nodes tied to each reactive statement, avoiding runtime diffing overhead.
+
+## Angular
+
+Angular traditionally uses zone.js to detect async events and walks the component tree performing change detection, with templates compiled by Ivy into efficient update instructions. Newer versions increasingly support fine-grained, signal-based change detection that can run without zone.js.
+
+## SolidJS
+
+SolidJS compiles JSX into real DOM-creation calls wired to fine-grained reactive signals. There is no virtual DOM and no re-execution of component functions; only the exact text node or attribute affected by a signal change is updated.
+
+## Qwik
+
+Qwik uses "resumable" rendering: the server renders full HTML and serializes component state and event listeners, and the client resumes execution without replaying component setup or hydration. Updates thereafter are driven by fine-grained signals patching only what changed.
+
+## Preact
+
+Preact implements its own lightweight virtual DOM, API-compatible with React, using a similar diff-and-reconcile algorithm but with a much smaller runtime footprint.
+
+## Lit
+
+Lit uses tagged template literals (lit-html) that identify the dynamic "holes" in a template ahead of time, so updates only touch those exact positions when reactive properties change, rendering into native Shadow DOM.
+
+## Alpine.js
+
+Alpine has no virtual DOM; directives declared in markup (x-text, x-show, x-bind, etc.) are evaluated against reactive data and applied as direct, targeted DOM mutations.
+
+## Ember
+
+Ember's Glimmer VM compiles templates into compact bytecode ("opcodes") that are executed efficiently at runtime, giving VDOM-like diffing benefits without maintaining a full virtual tree.
+
+## Astro
+
+Astro renders components to static HTML at build or request time by default, shipping zero client-side JavaScript unless a component is explicitly marked as an interactive island, which then hydrates independently using its own framework's rendering model.
+
+## Next.js
+
+Next.js builds on React's Fiber-based virtual DOM rendering, extending it with server-side and streaming rendering plus React Server Components, which can render entirely on the server with no client-side reconciliation.
+
+## Nuxt
+
+Nuxt builds on Vue's compiler-optimized virtual DOM rendering, adding universal rendering so the same component tree can render on the server and hydrate on the client via Vue's hydration mechanism.
+
+## Remix
+
+Remix builds on React's rendering model, emphasizing server rendering per request with nested route components rendering together, and favors progressive enhancement over heavy client-side re-rendering.

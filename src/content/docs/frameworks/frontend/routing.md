@@ -1,0 +1,60 @@
+---
+title: Routing
+description: How each frontend framework maps URLs to views, from official routers to filesystem-based conventions.
+---
+
+## React
+
+React has no built-in router; React Router (or, more recently, TanStack Router) is the de facto standard, providing declarative route configuration, nested routes, and data-loading APIs.
+
+## Vue
+
+Vue Router is the official routing library, offering nested routes, dynamic segments, and navigation guards, tightly integrated with Vue's reactivity system.
+
+## Svelte
+
+Svelte's core library has no bundled router; filesystem-based routing is instead provided by SvelteKit, the official meta-framework built on top of Svelte.
+
+## Angular
+
+Routing is a core, built-in part of Angular via the `@angular/router` module, supporting nested routes, route guards, resolvers, and lazy-loaded feature modules.
+
+## SolidJS
+
+SolidJS core ships without a router; the official `@solidjs/router` package provides both declarative and file-based routing patterns similar in spirit to React Router.
+
+## Qwik
+
+Qwik City, Qwik's meta-framework layer, provides filesystem-based routing with layouts, nested routes, and route-level data loaders.
+
+## Preact
+
+Preact has no official router in core; apps commonly use `preact-router` or React Router via `preact/compat`.
+
+## Lit
+
+Lit has no routing concept at the library level, since it's focused purely on components. Apps typically bring their own router, such as `@vaadin/router`, or use the History API directly.
+
+## Alpine.js
+
+Alpine has no routing capability at all; it's designed purely for sprinkling interactivity onto server-rendered pages, leaving routing entirely to the backend or another tool.
+
+## Ember
+
+The router is a first-class, central part of Ember, with a URL-driven route hierarchy that determines which templates and models load — historically one of Ember's most distinctive strengths.
+
+## Astro
+
+Astro uses filesystem-based routing where files under `src/pages` map directly to URL routes, supporting both static and server-rendered routes as well as dynamic route parameters.
+
+## Next.js
+
+Next.js uses filesystem-based routing via the `app/` (or legacy `pages/`) directory, supporting nested layouts, dynamic segments, and parallel/intercepting routes, with Server Components available per route.
+
+## Nuxt
+
+Routes are generated automatically from the `pages/` directory, built on top of Vue Router, with support for nested layouts and dynamic route parameters out of the box.
+
+## Remix
+
+Remix uses file-based (or config-based) nested routing where each route module co-locates its loader, action, and component, tying nested layouts directly to their data dependencies.

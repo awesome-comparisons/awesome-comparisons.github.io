@@ -1,0 +1,60 @@
+---
+title: SSR and SSG
+description: How each frontend framework supports server-side rendering and static site generation, whether natively, via a meta-framework, or not at all.
+---
+
+## React
+
+React itself supports server rendering (`renderToString`/`renderToPipeableStream`) but has no routing or build story attached. Full SSR/SSG applications in practice require a meta-framework such as Next.js.
+
+## Vue
+
+Vue provides a server-renderer API for SSR, but production SSR/SSG apps typically use Nuxt to get routing, data fetching, and build tooling layered around that core capability.
+
+## Svelte
+
+Svelte components can render to HTML strings on their own, but a complete SSR/SSG solution — including routing and per-route rendering modes — is delivered through the SvelteKit meta-framework.
+
+## Angular
+
+Angular Universal provides official server-side rendering support, integrated into the Angular CLI, enabling both SSR and prerendering (SSG) of Angular applications.
+
+## SolidJS
+
+The core library supports server-rendering primitives, but full SSR/SSG — including streaming and hydration — is provided by the SolidStart meta-framework.
+
+## Qwik
+
+SSR/SSG is central to Qwik's design via Qwik City, which can prerender to static HTML or serve per-request, leveraging resumability to skip the hydration cost entirely on the client.
+
+## Preact
+
+Preact supports server-side rendering via `preact-render-to-string`; full SSG/SSR setups typically rely on integrations or third-party meta-frameworks rather than an official one.
+
+## Lit
+
+Lit has an `@lit-labs/ssr` package for rendering custom elements to HTML on the server, generally used within larger frameworks or static-site tools rather than as a standalone SSR solution.
+
+## Alpine.js
+
+Not applicable in the traditional sense — Alpine only adds interactivity to server-rendered HTML produced by any backend, so SSR/SSG remains entirely the host page's or backend's responsibility.
+
+## Ember
+
+Ember supports server-side rendering through FastBoot, an official add-on that renders applications on the server for faster first paint and better SEO.
+
+## Astro
+
+Astro is SSG-first by default, rendering pages to static HTML at build time, with opt-in "hybrid" or full server output modes available per page or site-wide via adapters.
+
+## Next.js
+
+Next.js natively supports SSR, SSG, and Incremental Static Regeneration, with per-route control over rendering strategy and React Server Components enabling server-only rendering.
+
+## Nuxt
+
+Nuxt offers universal rendering out of the box — SSR, static site generation (`nuxt generate`), and hybrid rendering rules configurable per route.
+
+## Remix
+
+Remix is server-rendered per request by design, prioritizing fresh data and progressive enhancement over static pre-generation, though static export patterns are also possible.

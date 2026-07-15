@@ -1,0 +1,60 @@
+---
+title: Reactivity
+description: How each frontend framework tracks state changes and propagates them to the UI, from hook-based re-renders to fine-grained signals.
+---
+
+## React
+
+React reactivity is coarse-grained: calling a state setter (useState/useReducer) schedules a re-render of the whole component function, and the resulting virtual DOM is diffed to find what actually changed. There is no automatic dependency tracking, so avoiding unnecessary re-renders relies on manual memoization (useMemo, useCallback, React.memo).
+
+## Vue
+
+Vue wraps data in Proxies (Vue 3) whose getters and setters automatically track which parts of the UI depend on which properties. This gives fine-grained reactivity without needing a virtual-DOM-wide re-render or manual dependency arrays.
+
+## Svelte
+
+Svelte's reactivity is handled by its compiler: assignments to reactive variables trigger only the compiled update code that depends on them. Svelte 5 formalizes this further with signal-like runes such as $state and $derived.
+
+## Angular
+
+Angular has historically relied on zone.js to detect when async operations complete and re-check the component tree for changes ("dirty checking"). It is moving toward an explicit Signals API for opt-in, fine-grained reactivity that doesn't require zone.js at all.
+
+## SolidJS
+
+SolidJS is built around signals — primitive reactive values that track their subscribers directly at the point of use. Component functions run once to set up these bindings, so there is no re-execution of component logic on updates, only the exact DOM binding refreshes.
+
+## Qwik
+
+Qwik uses a signals-based model similar to Solid's, but designed to be serializable: reactive subscriptions can be paused on the server and resumed on the client without re-running any component setup code.
+
+## Preact
+
+Preact shares React's hook-based reactivity (useState/useReducer causing function re-execution), while also offering Preact Signals as an opt-in, fine-grained alternative that updates DOM directly without re-rendering components.
+
+## Lit
+
+Lit elements declare reactive properties that automatically trigger a re-render of the element's template when their values change, using simple property/attribute change observation rather than a dependency-tracking system.
+
+## Alpine.js
+
+Alpine wraps the object passed to x-data in a reactive Proxy, similar in spirit to Vue's approach, so any bound DOM automatically updates when a tracked property is mutated.
+
+## Ember
+
+Ember uses explicit tracked properties (the @tracked decorator); Glimmer components autotrack which tracked properties are read during rendering and re-render only when those specific properties change.
+
+## Astro
+
+Astro components have no reactivity of their own — they render once to HTML and never re-run on the client. Any reactive behavior exists only inside islands, which use whichever framework (React, Vue, Svelte, etc.) they were authored with.
+
+## Next.js
+
+Next.js inherits React's hook-based reactivity model for Client Components. Server Components, by contrast, have no client-side reactivity at all — they render once on the server and are not re-executed in the browser.
+
+## Nuxt
+
+Nuxt inherits Vue's proxy-based reactivity system, exposing ref/reactive as composables that work consistently across both server and client rendering contexts.
+
+## Remix
+
+Remix relies on React's hook-based reactivity, but its architecture pushes developers to derive UI state from URL parameters and loader data rather than local reactive state, reducing how much client-side reactivity is needed.

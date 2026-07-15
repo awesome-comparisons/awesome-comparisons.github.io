@@ -1,0 +1,60 @@
+---
+title: Styling
+description: How each frontend framework scopes and applies CSS to components, from Shadow DOM encapsulation to unopinionated plain CSS.
+---
+
+## React
+
+React has no built-in styling solution; common approaches include plain CSS/CSS Modules, CSS-in-JS libraries like styled-components or Emotion, or utility frameworks such as Tailwind CSS.
+
+## Vue
+
+Single-File Components support `<style scoped>` blocks that automatically scope CSS to the component via compiler-generated attributes, alongside support for CSS Modules and binding CSS variables to component state.
+
+## Svelte
+
+The `<style>` block in a `.svelte` file is scoped by default, using compiler-generated class hashing, with no extra runtime library or configuration required.
+
+## Angular
+
+Styles declared in a component's `styleUrls`/`styles` are view-encapsulated by default (emulated Shadow DOM), automatically scoping CSS to that component alone.
+
+## SolidJS
+
+SolidJS has no built-in styling system beyond standard CSS/CSS Modules support; class-based styling or CSS-in-JS libraries are used as needed, similar to the React ecosystem.
+
+## Qwik
+
+Qwik supports CSS Modules and a scoped styling API (`useStylesScoped$()`) for component-scoped styles, alongside standard global CSS imports.
+
+## Preact
+
+Preact takes the same unopinionated approach as React — plain CSS, CSS Modules, or CSS-in-JS — often via `preact/compat`-compatible packages from the React ecosystem.
+
+## Lit
+
+Styles are defined in a static `styles` property using tagged template literals and are automatically encapsulated by native Shadow DOM, isolating them from the rest of the page.
+
+## Alpine.js
+
+Alpine has no styling system of its own; since it only adds behavior to existing markup, styling is handled with regular CSS or utility frameworks like Tailwind applied directly in the HTML.
+
+## Ember
+
+Ember supports standard CSS/SCSS per app, with addons like `ember-css-modules` available for scoping; there's no built-in encapsulation, though Glimmer components can adopt similar patterns manually.
+
+## Astro
+
+`.astro` files support native `<style>` blocks that are scoped by default at build time, with first-class support for Tailwind, Sass, and CSS Modules.
+
+## Next.js
+
+Next.js supports CSS Modules and global CSS out of the box, plus first-class Tailwind CSS integration; CSS-in-JS libraries work too but require extra care around Server Components.
+
+## Nuxt
+
+Nuxt supports Vue's scoped `<style>` blocks along with built-in support for CSS preprocessors and Tailwind via modules, plus automatic per-page CSS code-splitting.
+
+## Remix
+
+Remix has no built-in CSS-in-JS solution but offers first-class support for route-based `<link>` stylesheets, working well with plain CSS, CSS Modules, and Tailwind.
