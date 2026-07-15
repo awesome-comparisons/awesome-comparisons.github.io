@@ -33,28 +33,30 @@ export function AppSidebar({
   activeSlug?: string
 }) {
   return (
-    <Sidebar {...props}>
-      <SidebarHeader className="border-b border-sidebar-border">
-        <CommandMenu tree={tree} />
-      </SidebarHeader>
-      <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>Content</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {tree.map((node) => (
-                <Tree
-                  key={node.type === "folder" ? node.path : node.slug}
-                  node={node}
-                  activeSlug={activeSlug}
-                />
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      </SidebarContent>
-      <SidebarRail />
-    </Sidebar>
+    <div style={{ "--sidebar-width": "20rem" } as React.CSSProperties}>
+      <Sidebar {...props}>
+        <SidebarHeader className="border-b border-sidebar-border">
+          <CommandMenu tree={tree} />
+        </SidebarHeader>
+        <SidebarContent>
+          <SidebarGroup>
+            <SidebarGroupLabel>Content</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {tree.map((node) => (
+                  <Tree
+                    key={node.type === "folder" ? node.path : node.slug}
+                    node={node}
+                    activeSlug={activeSlug}
+                  />
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </SidebarContent>
+        <SidebarRail />
+      </Sidebar>
+    </div>
   )
 }
 
@@ -74,7 +76,7 @@ function Tree({
           render={<a href={`/content/${node.slug}`} />}
         >
           <FileIcon />
-          {node.title}
+          <span className="min-w-0 truncate">{node.title}</span>
         </SidebarMenuButton>
       </SidebarMenuItem>
     )
@@ -91,7 +93,7 @@ function Tree({
         <SidebarMenuButton render={<CollapsibleTrigger />}>
           <ChevronRightIcon className="transition-transform" />
           <FolderIcon />
-          {humanizeSegment(node.name)}
+          <span className="min-w-0 truncate">{humanizeSegment(node.name)}</span>
         </SidebarMenuButton>
         <CollapsibleContent>
           <SidebarMenuSub>
