@@ -10,4 +10,12 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
   integrations: [react()],
+  markdown: {
+    shikiConfig: {
+      themes: {
+        light: "github-light",
+        dark: "github-dark",
+      },
+    },
+  },
 })

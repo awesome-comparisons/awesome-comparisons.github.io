@@ -3,7 +3,8 @@ import { getCollection, render } from "astro:content"
 
 import Layout from "@/layouts/main.astro"
 import { AppShell } from "@/components/app-shell"
-import { getContentTree } from "@/lib/content-tree"
+import DocPager from "@/components/DocPager.astro"
+import { getContentTree, flattenContentTree } from "@/lib/content-tree"
 import { getReadingStats } from "@/lib/reading-stats"
 
 export async function getStaticPaths() {
@@ -19,6 +20,14 @@ const { entry } = Astro.props
 const { Content, headings } = await render(entry)
 const tree = await getContentTree()
 const { wordCount, readingTime } = getReadingStats(entry.body ?? "")
+
+const flatDocs = flattenContentTree(tree)
+const currentIndex = flatDocs.findIndex((doc) => doc.slug === entry.id)
+const prev = currentIndex > 0 ? flatDocs[currentIndex - 1] : undefined
+const next =
+  currentIndex >= 0 && currentIndex < flatDocs.length - 1
+    ? flatDocs[currentIndex + 1]
+    : undefined
 
 const summary = {
   title: entry.data.title,
@@ -40,5 +49,6 @@ const summary = {
       }
       <Content />
     </article>
+    <DocPager prev={prev} next={next} />
   </AppShell>
 </Layout>

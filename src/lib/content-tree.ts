@@ -1,8 +1,9 @@
 import { getCollection } from "astro:content"
 
-export type ContentTreeNode =
-  | { type: "folder"; name: string; path: string; children: ContentTreeNode[] }
-  | { type: "file"; name: string; slug: string; title: string }
+import type { ContentTreeNode } from "@/lib/content-tree-utils"
+
+export type { ContentTreeNode, FlatDoc } from "@/lib/content-tree-utils"
+export { flattenContentTree, humanizeSegment } from "@/lib/content-tree-utils"
 
 export async function getContentTree(): Promise<ContentTreeNode[]> {
   const entries = await getCollection("docs")

@@ -20,7 +20,7 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar"
 import { FileIcon, ChevronRightIcon, FolderIcon } from "lucide-react"
-import type { ContentTreeNode } from "@/lib/content-tree"
+import { humanizeSegment, type ContentTreeNode } from "@/lib/content-tree-utils"
 
 export function AppSidebar({
   tree,
@@ -86,7 +86,7 @@ function Tree({
         <SidebarMenuButton render={<CollapsibleTrigger />}>
           <ChevronRightIcon className="transition-transform" />
           <FolderIcon />
-          {node.name}
+          {humanizeSegment(node.name)}
         </SidebarMenuButton>
         <CollapsibleContent>
           <SidebarMenuSub>

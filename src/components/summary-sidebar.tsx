@@ -36,7 +36,36 @@ export function SummarySidebar({
   wordCount: number
   readingTime: number
 }) {
-  const toc = headings.filter((heading) => heading.depth >= 2 && heading.depth <= 4)
+  const toc = React.useMemo(
+    () =>
+      headings.filter((heading) => heading.depth >= 2 && heading.depth <= 4),
+    [headings]
+  )
+  const [activeSlug, setActiveSlug] = React.useState<string | null>(null)
+
+  React.useEffect(() => {
+    const elements = toc
+      .map((heading) => document.getElementById(heading.slug))
+      .filter((element): element is HTMLElement => element !== null)
+
+    if (!elements.length) return
+
+    const HEADER_OFFSET = 96
+
+    function onScroll() {
+      let current = elements[0].id
+      for (const element of elements) {
+        if (element.getBoundingClientRect().top - HEADER_OFFSET <= 0) {
+          current = element.id
+        }
+      }
+      setActiveSlug(current)
+    }
+
+    onScroll()
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [toc])
 
   return (
     <Sidebar
@@ -48,7 +77,7 @@ export function SummarySidebar({
       <SidebarHeader className="justify-center gap-1 border-b border-sidebar-border px-4 py-4">
         <p className="truncate text-sm font-medium">{title}</p>
         {description && (
-          <p className="text-muted-foreground line-clamp-2 text-xs">
+          <p className="line-clamp-2 text-xs text-muted-foreground">
             {description}
           </p>
         )}
@@ -62,6 +91,7 @@ export function SummarySidebar({
                 {toc.map((heading) => (
                   <SidebarMenuItem key={heading.slug}>
                     <SidebarMenuButton
+                      isActive={heading.slug === activeSlug}
                       render={<a href={`#${heading.slug}`} />}
                       className={HEADING_INDENT[heading.depth]}
                     >
@@ -71,7 +101,7 @@ export function SummarySidebar({
                 ))}
               </SidebarMenu>
             ) : (
-              <p className="text-muted-foreground px-2 text-xs">
+              <p className="px-2 text-xs text-muted-foreground">
                 No sections on this page.
               </p>
             )}
@@ -80,7 +110,7 @@ export function SummarySidebar({
       </SidebarContent>
       <SidebarSeparator className="mx-0" />
       <SidebarFooter>
-        <div className="text-muted-foreground flex items-center justify-between px-2 text-xs">
+        <div className="flex items-center justify-between px-2 text-xs text-muted-foreground">
           <span>{wordCount} words</span>
           <span>{readingTime} min read</span>
         </div>

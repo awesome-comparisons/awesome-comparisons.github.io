@@ -8,18 +8,15 @@ const tree = await getContentTree()
 
 <Layout>
   <AppShell client:load tree={tree}>
-    <div class="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
-      <h1 class="font-medium">Awesome Comparisons</h1>
+    <div class="typeset typeset-docs">
+      <h1>Awesome Comparisons</h1>
       <p>
         Browse the sidebar to read guides, comparisons, and reference docs
         rendered straight from Markdown in <code>src/content/docs</code>.
       </p>
-      <a
-        class="text-primary underline underline-offset-4"
-        href="/content/introduction"
-      >
-        Start with the introduction &rarr;
-      </a>
+      <p>
+        <a href="/content/introduction">Start with the introduction &rarr;</a>
+      </p>
     </div>
   </AppShell>
 </Layout>

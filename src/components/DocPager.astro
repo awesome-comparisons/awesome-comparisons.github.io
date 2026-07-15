@@ -1,0 +1,46 @@
+---
+interface DocLink {
+  slug: string
+  title: string
+}
+
+interface Props {
+  prev?: DocLink
+  next?: DocLink
+}
+
+const { prev, next } = Astro.props
+---
+
+{
+  (prev || next) && (
+    <nav class="mt-12 flex items-stretch justify-between gap-4 border-t pt-6 text-sm">
+      <div class="flex-1">
+        {prev && (
+          <a
+            href={`/content/${prev.slug}`}
+            class="group flex flex-col items-start gap-1"
+          >
+            <span class="text-xs text-muted-foreground">← Previous</span>
+            <span class="font-medium text-foreground group-hover:underline">
+              {prev.title}
+            </span>
+          </a>
+        )}
+      </div>
+      <div class="flex-1 text-right">
+        {next && (
+          <a
+            href={`/content/${next.slug}`}
+            class="group flex flex-col items-end gap-1"
+          >
+            <span class="text-xs text-muted-foreground">Next →</span>
+            <span class="font-medium text-foreground group-hover:underline">
+              {next.title}
+            </span>
+          </a>
+        )}
+      </div>
+    </nav>
+  )
+}
